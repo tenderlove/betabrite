@@ -50,7 +50,7 @@ class BetaBrite
       SEVEN_WIDE_F  = '='
       WIDE_SRK_FIVE = '>'
     end
-    attr_accessor :color, :charset
+    attr_accessor :color, :charset, :string
 
     def initialize(string, opts = {})
       args = {  :color    => Color::GREEN,
