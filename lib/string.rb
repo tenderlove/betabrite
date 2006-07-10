@@ -1,4 +1,6 @@
 class BetaBrite
+  # This class encapsulates a string and attributes about the string such as
+  # color, character set, and also contains special characters.
   class String
     LEFT_ARROW      = 0xc6.chr
     RIGHT_ARROW     = 0xc6.chr

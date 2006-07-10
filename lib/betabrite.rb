@@ -5,6 +5,9 @@ require 'memory/memory'
 require 'string'
 require 'bb_version'
 
+# = Synopsis
+# This class assembles all packets (different files) and yields the data
+# that needs to be written back to the caller of the BetaBrite#write method.
 class BetaBrite
   HEADER    = [ 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 ]
   STX       = 0x02.chr
@@ -71,6 +74,7 @@ class BetaBrite
     @memory << packet
   end
 
+  # This method is used to write on the sign
   def write(&block)
     if @text_files.length > 0 || @string_files.length > 0
       write_header &block
@@ -91,6 +95,7 @@ class BetaBrite
     end
   end
 
+  # This method is used to allocate memory on the sign
   def allocate(&block)
     if @memory.length > 0
       write_header &block
