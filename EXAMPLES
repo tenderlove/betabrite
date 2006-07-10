@@ -1,0 +1,86 @@
+= BetaBrite Examples
+
+== Allocate Memory
+
+  require 'betabrite'
+  require 'serialport'
+  
+  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
+  
+  sign = BetaBrite.new
+  
+  string  = BetaBrite::Memory::String.new('0', 32)
+  dots    = BetaBrite::Memory::Dots.new('1', 7, 7)
+  text    = BetaBrite::Memory::Text.new('A', 256)
+  
+  sign.add text
+  sign.add dots
+  sign.add string
+  
+  sign.allocate { |text|
+    sp.write text
+  }
+
+== Reset the sign
+
+  require 'betabrite'
+  require 'serialport'
+  
+  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
+  
+  sign = BetaBrite.new
+  sign.add BetaBrite::Memory::Clear.new
+  
+  sign.allocate { |text|
+    sp.write text
+  }
+
+== Write a text file
+
+  require 'serialport'
+  require 'betabrite'
+  
+  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
+  
+  sign = BetaBrite.new
+  tf = BetaBrite::TextFile.new
+  tf.message = ARGV[0]
+  
+  sign.add tf
+  
+  sign.write { |text|
+    sp.write text
+  }
+
+== Write a text file that references a string file
+
+  require 'betabrite'
+  require 'serialport'
+  
+  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
+  
+  sign = BetaBrite.new
+  
+  # Create a new TextFile with the COMPRESSED_ROTATE mode.
+  tf = BetaBrite::TextFile.new { |a|
+    a.mode = BetaBrite::TextFile::Mode::COMPRESSED_ROTATE
+  }
+  
+  # Set up a BetaBrite::String
+  name = BetaBrite::String.new('James',
+                                    :color => BetaBrite::String::Color::AMBER
+                                  )
+  # Create a StringFile which can be modified without making the sign blink.
+  sf = BetaBrite::StringFile.new('0', name)
+  
+  # Set the TextFile message and reference the StringFile
+  tf.message = BetaBrite::String.new("Aaron #{sf.id} Patterson")
+  
+  
+  sign.add tf
+  sign.add sf 
+  
+  sign.write { |text|
+    sp.write text
+  }
+

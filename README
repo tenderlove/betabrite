@@ -1,0 +1,100 @@
+= BetaBrite Library
+
+== Synopsis
+
+This library is used for controlling BetaBrite LED signs via Ruby.
+
+== More Information
+
+The BetaBrite sign has memory that can be configured before any messages are
+displayed.  There are different types of "Files" that can be allocated.
+"Text Files" are files that are displayed on the sign.  To display any other
+type of file on the sign, that file must be referenced from a Text File.  Files
+must be labeled, and are given a single character file name.  The default text
+file displayed on the sign is labeled 'A'.
+
+Here is an example of modifying the default sign text:
+
+  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
+  
+  sign = BetaBrite.new
+  tf = BetaBrite::TextFile.new
+  tf.message = ARGV[0]
+  
+  sign.add tf
+  
+  sign.write { |text|
+    sp.write text
+  }
+
+== Allocating Memory
+The memory in the BetaBrite sign should be configured before anything is
+written to it.  This means writing a seperate script to allocate the memory
+from the one that actually writes data.  This may change in the future, I
+just haven't figured out if it is possible to allocate memory and write data
+at the same time.
+
+Here is an example of allocating memory on the sign:
+
+  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
+  
+  sign = BetaBrite.new
+  
+  string  = BetaBrite::Memory::String.new('0', 32)
+  dots    = BetaBrite::Memory::Dots.new('1', 7, 7)
+  text    = BetaBrite::Memory::Text.new('A', 256)
+  
+  sign.add text
+  sign.add dots
+  sign.add string
+  
+  sign.allocate { |text|
+    sp.write text
+  }
+
+For more examples, see the EXAMPLES file.
+
+== Different File Types
+=== Text Files
+The data stored in a text file is not supposed to change frequently.  If the
+data in a text file is changed, the sign will go blank before anything is
+displayed.  This is not good for applications like a stock ticker which
+update data quite frequently.  This problem can be avoided by having the
+text file reference more volitile files like String Files.
+
+=== String Files
+String files contain more volitile memory.  The contents of a String File
+can be changed without the screen going blank.  String Files, however, cannot
+be displayed unless referenced from a Text File.
+
+Here is an example of referencing a String File from a Text File:
+
+  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
+  sign = BetaBrite.new
+  tf = BetaBrite::TextFile.new
+  
+  # Set up a BetaBrite::String
+  middle_name = BetaBrite::String.new('James',
+                                    :color => BetaBrite::String::Color::AMBER
+                                  )
+  # Create a StringFile which can be modified without making the sign blink.
+  sf = BetaBrite::StringFile.new('0', middle_name)
+  
+  # Set the TextFile message and reference the StringFile
+  tf.message = BetaBrite::String.new("Aaron #{sf.id} Patterson")
+  
+  
+  sign.add tf
+  sign.add sf 
+  
+  sign.write { |text|
+    sp.write text
+  }
+
+Once the String file is allocated and displayed, it can be changed at any
+time and the string will be updated without the screen going blank.
+
+=== Dots Files
+Dots files can contain pictures.  Each pixel is set in an array of strings.
+See dots_file.rb under the script directory for an example.  Or see the
+EXAMPLES file.
