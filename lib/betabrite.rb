@@ -3,6 +3,7 @@ require 'files/stringfile'
 require 'files/dotsfile'
 require 'memory/memory'
 require 'string'
+require 'bb_version'
 
 class BetaBrite
   HEADER    = [ 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 ]
