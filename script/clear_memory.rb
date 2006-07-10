@@ -5,7 +5,6 @@ $:.unshift File.join(File.dirname(__FILE__), "..", "lib")
 require 'betabrite'
 require 'serialport'
 
-DRb.start_service()
 sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
 
 sign = BetaBrite.new
