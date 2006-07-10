@@ -58,7 +58,7 @@ task :update_version do
     f.puts "  Version = '#{PKG_VERSION}'"
     f.puts "end"
   end
-  sh 'svn commit -m"updating version" lib/mechanize/mech_version.rb'
+  sh 'svn commit -m"updating version" lib/bb_version.rb'
 end
 
 desc "Create a new release"
