@@ -1,5 +1,9 @@
 = BetaBrite Changelog
 
+== 0.0.2
+
+* Added new syntax to BetaBrite::String and BetaBrite::TextFile
+
 == 0.0.1
 
 * First release

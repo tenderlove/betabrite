@@ -1,5 +1,27 @@
 = BetaBrite Release Notes
 
+== 0.0.2
+
+This release comes with new syntax for setting attributes of
+BetaBrite::String and BetaBrite::TextFile.  Setting attributes like color
+and character set is now less cumbersome.  For example, here is the old
+way to set the color using constants:
+  s = BetaBrite::String.new("hello")
+  s.color = BetaBrite::String::Color::GREEN
+Instead you can do this:
+  s = BetaBrite::String.new("hello") { |a|
+    a.set_color "green"
+  }
+You can treat TextFile similarly:
+  s = BetaBrite::TextFile.new { |a|
+    a.set_mode "compressed_rotate"
+    a.set_position "middle"
+  }
+These special set functions figure out what constant you want and set it
+to the attribute you want.  "set_mode" looks up the name passed in in the
+constants stored in the Mode class, and sets it to the mode attribute.
+
+
 == 0.0.1
 
 This is the first release of the BetaBrite sign library.  Please see the RDoc,

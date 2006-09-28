@@ -62,6 +62,9 @@ class BetaBrite
 
     attr_accessor :label, :display_position, :mode, :message
 
+    alias_method :position, :display_position
+    alias_method :position=, :display_position=
+
     def initialize
       @display_position = Position::MIDDLE
       @label = "A"
@@ -80,6 +83,24 @@ class BetaBrite
       end
 
       sprintf("%04x", total).upcase
+    end
+
+    def method_missing(sym, *args)
+      if args.length > 0 && sym.to_s =~ /^set_(mode|position)$/
+        class_name = $1
+
+        const_sym = class_name.capitalize.to_sym
+
+        klass = self.class.const_get const_sym
+        if klass.const_defined? args.first.upcase.to_sym
+          return send("#{class_name}=".to_sym,
+                      klass.const_get(args.first.upcase.to_sym))
+        else
+          raise ArgumentError, "no constant #{args.first.upcase}", caller
+        end
+      end
+
+      super
     end
 
     alias :inspect :to_s

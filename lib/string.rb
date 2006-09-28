@@ -61,12 +61,28 @@ class BetaBrite
       @string   = string
       @color    = args[:color]
       @charset  = args[:charset]
+      yield self if block_given?
     end
 
     def to_s
       "#{0x1a.chr}#{@charset}#{0x1c.chr}#{@color}#{@string}"
     end
 
-    #alias :to_s :format
+    def method_missing(sym, *args)
+      if args.length > 0 && sym.to_s =~ /^set_(color|charset)$/
+        class_name = $1
+
+        const_sym = class_name == 'color' ? :Color : :CharSet
+
+        klass = self.class.const_get const_sym
+        if klass.const_defined? args.first.upcase.to_sym
+          return send("#{class_name}=".to_sym,
+                      klass.const_get(args.first.upcase.to_sym))
+        else
+          raise ArgumentError, "no constant #{args.first.upcase}", caller
+        end
+      end
+      super
+    end
   end
 end
