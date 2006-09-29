@@ -11,7 +11,7 @@ end
 
 PKG_BUILD = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
 PKG_NAME = 'betabrite'
-PKG_VERSION = '0.0.1' + PKG_BUILD
+PKG_VERSION = '0.0.2' + PKG_BUILD
 PKG_FILES = FileList["{doc,lib,test}/**/*"].exclude("rdoc").to_a
 
 spec = Gem::Specification.new do |s|
