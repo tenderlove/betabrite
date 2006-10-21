@@ -35,6 +35,7 @@ class BetaBrite
 
     # This shouldn't change except for unit testing
     @sleep_time = 1
+    yield self if block_given?
   end
 
   def header
