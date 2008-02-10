@@ -4,7 +4,7 @@ $:.unshift File.join(File.dirname(__FILE__), "..", "test")
 require 'test/unit'
 require 'betabrite'
 
-class MemoryAllocTest < Test::Unit::TestCase
+class SetStringTest < Test::Unit::TestCase
   def setup
     @sign = BetaBrite.new
     @sign.sleep_time = 0
