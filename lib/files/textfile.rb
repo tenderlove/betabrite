@@ -64,12 +64,18 @@ class BetaBrite
 
     alias_method :position, :display_position
     alias_method :position=, :display_position=
+    alias :puts :message=
 
-    def initialize
+    def initialize(label = 'A', &block)
       @display_position = Position::MIDDLE
-      @label = "A"
+      @label = label
+      @message = nil
       @mode  = Mode::ROTATE
-      yield self if block_given?
+      instance_eval(&block) if block
+    end
+
+    def string(some_string)
+      BetaBrite::String.new(some_string)
     end
 
     def to_s

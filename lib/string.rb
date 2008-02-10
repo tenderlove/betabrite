@@ -68,6 +68,11 @@ class BetaBrite
       "#{0x1a.chr}#{@charset}#{0x1c.chr}#{@color}#{@string}"
     end
 
+    def red
+      @color = Color::RED
+      self
+    end
+
     def method_missing(sym, *args)
       if args.length > 0 && sym.to_s =~ /^set_(color|charset)$/
         class_name = $1

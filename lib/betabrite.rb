@@ -3,7 +3,7 @@ require 'files/stringfile'
 require 'files/dotsfile'
 require 'memory/memory'
 require 'string'
-require 'bb_version'
+require 'betabrite/usb'
 
 # = Synopsis
 # This class assembles all packets (different files) and yields the data
@@ -36,8 +36,16 @@ class BetaBrite
     @memory       = []
 
     # This shouldn't change except for unit testing
-    @sleep_time = 1
+    @sleep_time = 0
     yield self if block_given?
+  end
+
+  def textfile(label = 'A', &block)
+    @text_files << BetaBrite::TextFile.new(label, &block)
+  end
+
+  def clear_memory!
+    @memory << BetaBrite::Memory::Clear.new
   end
 
   def header
@@ -77,6 +85,14 @@ class BetaBrite
     @memory << packet
   end
 
+  # Get the message to be sent to the sign
+  def message
+    header +
+      @text_files.each { |tf| tf.to_s }.join('') +
+      @string_files.each { |tf| tf.to_s }.join('') +
+      tail
+  end
+
   # This method is used to write on the sign
   def write(&block)
     if @text_files.length > 0 || @string_files.length > 0
@@ -96,6 +112,11 @@ class BetaBrite
       }
       write_end(&block)
     end
+  end
+
+  def memory_message
+    header + STX + MEMORY_CODE +
+      @memory.map { |packet| packet.to_s }.join('') + tail
   end
 
   # This method is used to allocate memory on the sign
@@ -120,5 +141,9 @@ class BetaBrite
 
   def write_end(&block)
     yield EOT
+  end
+
+  def tail
+    EOT
   end
 end
