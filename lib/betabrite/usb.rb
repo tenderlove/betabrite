@@ -1,5 +1,5 @@
-class BetaBrite
-  class USB < BetaBrite
+module BetaBrite
+  class USB < Base
     # USB Device Codes
     PRODUCT_ID     = 0x1234
     VENDOR_ID      = 0x8765

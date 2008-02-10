@@ -1,4 +1,4 @@
-class BetaBrite
+module BetaBrite
   class Memory
     COMMAND_CODE = "E$"
     TEXT         = 'A'
@@ -7,7 +7,7 @@ class BetaBrite
     LOCKED       = 'L'
     UNLOCKED     = 'U'
     def self.clear
-      BetaBrite::STX << COMMAND_CODE
+      BetaBrite::Base::STX << COMMAND_CODE
     end
 
     attr_accessor :label, :type, :locked, :size, :time
@@ -91,7 +91,7 @@ class BetaBrite
 
     class Clear < Memory
       def to_s
-        "#{BetaBrite::STX}#{COMMAND_CODE}"
+        "#{BetaBrite::Base::STX}#{COMMAND_CODE}"
       end
     end
   end

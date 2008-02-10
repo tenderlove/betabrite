@@ -1,4 +1,4 @@
-class BetaBrite
+module BetaBrite
   # This class encapsulates a string and attributes about the string such as
   # color, character set, and also contains special characters.
   class String

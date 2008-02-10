@@ -6,7 +6,7 @@ require 'betabrite'
 
 class MemoryAllocTest < Test::Unit::TestCase
   def setup
-    @sign = BetaBrite.new
+    @sign = BetaBrite::Base.new
     @sign.sleep_time = 0
   end
 
