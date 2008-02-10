@@ -52,9 +52,9 @@ module BetaBrite
       @memory.push(*(BetaBrite::Memory::Factory.find(&block)))
     end
 
-    def clear_memory!
-      @memory << BetaBrite::Memory::Clear.new
-    end
+    #def clear_memory!
+    #  @memory << BetaBrite::Memory::Clear.new
+    #end
 
     # Get the message to be sent to the sign
     def message
@@ -73,7 +73,7 @@ module BetaBrite
 
     def header
       header_str = HEADER.collect { |a| a.chr }.join
-      header_str << SIGN_TYPE << @sign_address.collect { |a| a.chr }.join
+      "#{header_str}#{SIGN_TYPE}#{@sign_address.collect { |a| a.chr }.join}"
     end
     alias :inspect :header
     public :inspect

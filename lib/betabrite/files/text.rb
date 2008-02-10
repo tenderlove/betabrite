@@ -65,20 +65,14 @@ module BetaBrite
 
       attr_accessor :label, :position, :mode, :message
 
+      include BetaBrite::FileDSL
+
       def initialize(label = 'A', &block)
         @position = Position::MIDDLE
         @label = label
         @message = nil
         @mode  = Mode::ROTATE
         instance_eval(&block) if block
-      end
-
-      def puts(some_string)
-        @message = @message ? @message + some_string : some_string
-      end
-
-      def string(some_string)
-        BetaBrite::String.new(some_string)
       end
 
       def stringfile(label)
@@ -107,31 +101,23 @@ module BetaBrite
       Mode.constants.each do |constant|
         next unless constant =~ /^[A-Z_]*$/
           define_method(:"#{constant.downcase}") do
-          puts constant
-          @mode = Mode.const_get(constant)
-          self
+            @mode = Mode.const_get(constant)
+            self
           end
       end
 
       Position.constants.each do |constant|
         next unless constant =~ /^[A-Z_]*$/
           define_method(:"#{constant.downcase}") do
-          @position = Position.const_get(constant)
-          self
-          end
-      end
-
-      ::BetaBrite::String.constants.each do |constant|
-        next unless constant =~ /^[A-Z_]*$/
-          define_method(:"#{constant.downcase}") do
-          ::BetaBrite::String.const_get(constant)
+            @position = Position.const_get(constant)
+            self
           end
       end
 
       private
       def combine
-      "#{BetaBrite::Base::STX}#{WRITE}#{@label}#{BetaBrite::Base::ESC}" <<
-      "#{@position}#{@mode}#{@message}#{BetaBrite::Base::ETX}"
+        "#{BetaBrite::Base::STX}#{WRITE}#{@label}#{BetaBrite::Base::ESC}" +
+          "#{@position}#{@mode}#{@message}#{BetaBrite::Base::ETX}"
       end
     end
   end
