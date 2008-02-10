@@ -24,15 +24,15 @@ class ManyMemoryAllocTest < Test::Unit::TestCase
 0x30,0x30,0x30,0x30,0x30,0x04
 ]
     final_s = final.collect { |x| x.chr }.join
-    @sign.add BetaBrite::Memory::Text.new('A', 4096)
+    @sign.memory << BetaBrite::Memory::Text.new('A', 4096)
 
     0.upto(9) { |i| 
       string  = BetaBrite::Memory::String.new(i.to_s, 64)
-      @sign.add string
+      @sign.memory << string
     }
 
     test_string = ''
-    @sign.allocate { |text|
+    @sign.write_allocate { |text|
       #obj.tty.write text
       test_string << text
     }

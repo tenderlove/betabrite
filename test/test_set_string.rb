@@ -28,7 +28,7 @@ class SetStringTest < Test::Unit::TestCase
       '3.37 ',
       '16.47 '
     ].each_with_index do |price,idx|
-      @sign.add_stringfile BetaBrite::StringFile.new(idx, price)
+      @sign.string_files << BetaBrite::StringFile.new(idx, price)
     end
 
     assert_equal('11045.28 ', @sign.string_files[0].message)

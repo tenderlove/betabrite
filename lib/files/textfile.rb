@@ -51,31 +51,40 @@ class BetaBrite
       CYCLE_COLORS= 0x6E.chr << 0x43.chr # Color changes from one to another
 
       # Special Graphics
-      THANK_YOU   = 0x6E.chr << 0x53.chr # "Thank You" in script
-      NO_SMOKING  = 0x6E.chr << 0x55.chr # No smoking
-      DRINK_DRIVE = 0x6E.chr << 0x56.chr # Don't drink and drive
-      ANIMAL_ANIM = 0x6E.chr << 0x57.chr # Animal animation
-      FIREWORKS   = 0x6E.chr << 0x58.chr # Fireworks animation
-      BALLOONS    = 0x6E.chr << 0x59.chr # Balloon animation
-      CHERRY_BOMB = 0x6E.chr << 0x5A.chr # A bomb animation
+      THANK_YOU   = [0x6E, 0x53].pack('C*') # "Thank You" in script
+      FLAG        = [0x6E, 0x54].pack('C*') # American Flag
+      NO_SMOKING  = [0x6E, 0x55].pack('C*') # No smoking
+      DRINK_DRIVE = [0x6E, 0x56].pack('C*') # Don't drink and drive
+      ANIMAL_ANIM = [0x6E, 0x57].pack('C*') # Animal animation
+      FIREWORKS   = [0x6E, 0x58].pack('C*') # Fireworks animation
+      BALLOONS    = [0x6E, 0x59].pack('C*') # Balloon animation
+      CHERRY_BOMB = [0x6E, 0x5A].pack('C*') # A bomb animation or a smile
+      SMILE       = [0x6E, 0x5A].pack('C*') # A bomb animation or a smile
     end
 
     attr_accessor :label, :display_position, :mode, :message
 
     alias_method :position, :display_position
     alias_method :position=, :display_position=
-    alias :puts :message=
 
     def initialize(label = 'A', &block)
-      @display_position = Position::MIDDLE
+      @position = Position::MIDDLE
       @label = label
       @message = nil
       @mode  = Mode::ROTATE
       instance_eval(&block) if block
     end
 
+    def puts(some_string)
+      @message = @message ? @message + some_string : some_string
+    end
+
     def string(some_string)
       BetaBrite::String.new(some_string)
+    end
+
+    def stringfile(label)
+      "#{BetaBrite::DLE}#{label}"
     end
 
     def to_s
@@ -91,30 +100,35 @@ class BetaBrite
       sprintf("%04x", total).upcase
     end
 
-    def method_missing(sym, *args)
-      if args.length > 0 && sym.to_s =~ /^set_(mode|position)$/
-        class_name = $1
+    alias :inspect :to_s
 
-        const_sym = class_name.capitalize.to_sym
-
-        klass = self.class.const_get const_sym
-        if klass.const_defined? args.first.upcase.to_sym
-          return send("#{class_name}=".to_sym,
-                      klass.const_get(args.first.upcase.to_sym))
-        else
-          raise ArgumentError, "no constant #{args.first.upcase}", caller
-        end
+    Mode.constants.each do |constant|
+      next unless constant =~ /^[A-Z_]*$/
+      define_method(:"#{constant.downcase}") do
+        @mode = Mode.const_get(constant)
+        self
       end
-
-      super
     end
 
-    alias :inspect :to_s
+    Position.constants.each do |constant|
+      next unless constant =~ /^[A-Z_]*$/
+      define_method(:"#{constant.downcase}") do
+        @position = Position.const_get(constant)
+        self
+      end
+    end
+
+    ::BetaBrite::String.constants.each do |constant|
+      next unless constant =~ /^[A-Z_]*$/
+      define_method(:"#{constant.downcase}") do
+        ::BetaBrite::String.const_get(constant)
+      end
+    end
 
     private
     def combine
       "#{BetaBrite::STX}#{WRITE}#{@label}#{BetaBrite::ESC}" <<
-      "#{@display_position}#{@mode}#{@message}#{BetaBrite::ETX}"
+      "#{@position}#{@mode}#{@message}#{BetaBrite::ETX}"
     end
   end
 end

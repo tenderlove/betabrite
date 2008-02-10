@@ -18,23 +18,28 @@ class BetaBrite
         $stderr.puts "Please install ruby-usb"
         raise ex
       end
-      @device = usb_device()
-      @handle = usb_interface(@device)
       super
     end
 
     def clear_memory!
-      self.add BetaBrite::Memory::Clear.new
-      @handle.usb_bulk_write(WRITE_ENDPOINT, memory_message, WRITE_TIMEOUT)
-      @handle.usb_bulk_write(WRITE_ENDPOINT, memory_message, WRITE_TIMEOUT)
-      @handle.usb_close
+      self.memory << BetaBrite::Memory::Clear.new
+      write_memory!
+    end
+
+    def write_memory!
+      device = usb_device()
+      handle = usb_interface(device)
+      handle.usb_bulk_write(WRITE_ENDPOINT, memory_message, WRITE_TIMEOUT)
+      handle.usb_bulk_write(WRITE_ENDPOINT, memory_message, WRITE_TIMEOUT)
+      handle.usb_close
     end
 
     def write!
-      #@handle.usb_bulk_write(WRITE_ENDPOINT, message, WRITE_TIMEOUT)
-      @handle.usb_bulk_write(WRITE_ENDPOINT, message, WRITE_TIMEOUT)
-      @handle.usb_bulk_write(WRITE_ENDPOINT, message, WRITE_TIMEOUT)
-      @handle.usb_close
+      device = usb_device()
+      handle = usb_interface(device)
+      handle.usb_bulk_write(WRITE_ENDPOINT, message, WRITE_TIMEOUT)
+      handle.usb_bulk_write(WRITE_ENDPOINT, message, WRITE_TIMEOUT)
+      handle.usb_close
     end
 
     private

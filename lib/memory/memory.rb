@@ -27,11 +27,33 @@ class BetaBrite
     end
 
     def format
-      #BetaBrite::STX << COMMAND_CODE << @label << @type << @locked <<
-      @label << @type << @locked << @size.upcase << @time
+      "#{@label}#{@type}#{@locked}#{@size.upcase}#{@time}"
     end
 
     alias :to_s :format
+
+    class Factory < Memory
+      attr_reader :memory_list
+      class << self
+        def find(&block)
+          @memory_list = []
+          instance_eval(&block)
+          @memory_list
+        end
+
+        def string(label, size)
+          @memory_list << String.new(label, size)
+        end
+
+        def text(label, size)
+          @memory_list << Text.new(label, size)
+        end
+
+        def dots(label, rows, columns)
+          @memory_list << Dots.new(label, rows, columns)
+        end
+      end
+    end
 
     class String < Memory
       def initialize(label, size)

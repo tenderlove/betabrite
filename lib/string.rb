@@ -64,30 +64,34 @@ class BetaBrite
       yield self if block_given?
     end
 
-    def to_s
-      "#{0x1a.chr}#{@charset}#{0x1c.chr}#{@color}#{@string}"
+    def +(other)
+      self.to_s + other.to_s
     end
 
-    def red
-      @color = Color::RED
+    def rgb(rgb_color)
+      self.color = "Z#{rgb_color}"
       self
     end
 
-    def method_missing(sym, *args)
-      if args.length > 0 && sym.to_s =~ /^set_(color|charset)$/
-        class_name = $1
+    def to_s
+      "#{0x1a.chr}#{@charset}#{0x1c.chr}#{@color}#{@string}"
+    end
+    alias :to_str :to_s
 
-        const_sym = class_name == 'color' ? :Color : :CharSet
-
-        klass = self.class.const_get const_sym
-        if klass.const_defined? args.first.upcase.to_sym
-          return send("#{class_name}=".to_sym,
-                      klass.const_get(args.first.upcase.to_sym))
-        else
-          raise ArgumentError, "no constant #{args.first.upcase}", caller
-        end
+    Color.constants.each do |constant|
+      next unless constant =~ /^[A-Z_]*$/
+      define_method(:"#{constant.downcase}") do
+        @color = Color.const_get(constant)
+        self
       end
-      super
+    end
+
+    CharSet.constants.each do |constant|
+      next unless constant =~ /^[A-Z_]*$/
+      define_method(:"#{constant.downcase}") do
+        @charset = CharSet.const_get(constant)
+        self
+      end
     end
   end
 end

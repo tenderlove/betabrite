@@ -15,9 +15,9 @@ class MemoryAllocTest < Test::Unit::TestCase
     string = alloc_string.collect { |x| x.chr }.join
     mem = BetaBrite::Memory::Text.new('A', 256)
 
-    @sign.add mem
+    @sign.memory << mem
     test_string = ''
-    @sign.allocate { |text|
+    @sign.write_allocate { |text|
       test_string << text
     }
 
@@ -29,9 +29,9 @@ class MemoryAllocTest < Test::Unit::TestCase
     string = alloc_string.collect { |x| x.chr }.join
     mem = BetaBrite::Memory::String.new('0', 32)
 
-    @sign.add mem
+    @sign.memory << mem
     test_string = ''
-    @sign.allocate { |text|
+    @sign.write_allocate { |text|
       test_string << text
     }
 
@@ -43,9 +43,9 @@ class MemoryAllocTest < Test::Unit::TestCase
     string = alloc_string.collect { |x| x.chr }.join
     mem = BetaBrite::Memory::Dots.new('1', 7, 7)
 
-    @sign.add mem
+    @sign.memory << mem
     test_string = ''
-    @sign.allocate { |text|
+    @sign.write_allocate { |text|
       test_string << text
     }
 
@@ -58,11 +58,11 @@ class MemoryAllocTest < Test::Unit::TestCase
     mem = BetaBrite::Memory::String.new('0', 32)
     text = BetaBrite::Memory::Text.new('A', 256)
 
-    @sign.add mem
-    @sign.add text
+    @sign.memory << mem
+    @sign.memory << text
 
     test_string = ''
-    @sign.allocate { |text|
+    @sign.write_allocate { |text|
       test_string << text
     }
 

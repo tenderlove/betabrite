@@ -7,8 +7,8 @@ require 'betabrite'
 class StringTest < Test::Unit::TestCase
   def test_const_dsl
     s = BetaBrite::String.new("hello") { |a|
-      a.set_color "green"
-      a.set_charset "five_high"
+      a.green
+      a.five_high
     }
 
     assert_equal(BetaBrite::String::Color::GREEN, s.color)

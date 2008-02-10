@@ -1,8 +1,8 @@
+require 'string'
 require 'files/textfile'
 require 'files/stringfile'
 require 'files/dotsfile'
 require 'memory/memory'
-require 'string'
 require 'betabrite/usb'
 
 # = Synopsis
@@ -25,7 +25,7 @@ class BetaBrite
   VERSION   = '0.1.0'
 
   attr_accessor :sleep_time
-  attr_reader :string_files, :text_files, :dots_files
+  attr_reader :string_files, :text_files, :dots_files, :memory
 
   def initialize
     # Default address is "00" which means broadcast to all signs
@@ -44,45 +44,16 @@ class BetaBrite
     @text_files << BetaBrite::TextFile.new(label, &block)
   end
 
+  def stringfile(label, message = nil, &block)
+    @string_files << BetaBrite::StringFile.new(label, message, &block)
+  end
+
+  def allocate(&block)
+    @memory.push(*(BetaBrite::Memory::Factory.find(&block)))
+  end
+
   def clear_memory!
     @memory << BetaBrite::Memory::Clear.new
-  end
-
-  def header
-    header_str = HEADER.collect { |a| a.chr }.join
-    header_str << SIGN_TYPE << @sign_address.collect { |a| a.chr }.join
-  end
-
-  def inspect
-    header
-  end
-
-  def add(packet)
-    if packet.is_a? BetaBrite::Memory
-      add_memory packet
-    elsif packet.is_a? BetaBrite::StringFile
-      add_stringfile packet
-    elsif packet.is_a? BetaBrite::TextFile
-      add_textfile packet
-    elsif packet.is_a? BetaBrite::DotsFile
-      add_dotsfile packet
-    end
-  end
-
-  def add_stringfile(packet)
-    @string_files << packet
-  end
-
-  def add_textfile(packet)
-    @text_files << packet
-  end
-
-  def add_dotsfile(packet)
-    @dots_files << packet
-  end
-
-  def add_memory(packet)
-    @memory << packet
   end
 
   # Get the message to be sent to the sign
@@ -115,12 +86,11 @@ class BetaBrite
   end
 
   def memory_message
-    header + STX + MEMORY_CODE +
-      @memory.map { |packet| packet.to_s }.join('') + tail
+    "#{header}#{STX}#{MEMORY_CODE}#{@memory.map { |packet| packet.to_s }.join('')}#{tail}"
   end
 
   # This method is used to allocate memory on the sign
-  def allocate(&block)
+  def write_allocate(&block)
     if @memory.length > 0
       write_header(&block)
       yield STX
@@ -131,6 +101,13 @@ class BetaBrite
   end
 
   private
+
+  def header
+    header_str = HEADER.collect { |a| a.chr }.join
+    header_str << SIGN_TYPE << @sign_address.collect { |a| a.chr }.join
+  end
+  alias :inspect :header
+  public :inspect
 
   def write_header(&block)
     header.split(//).each { |c|
