@@ -48,6 +48,10 @@ class BetaBrite
     @string_files << BetaBrite::StringFile.new(label, message, &block)
   end
 
+  def dotsfile(label, rows = nil, columns = nil, picture = nil, &block)
+    @dots_files << BetaBrite::DotsFile.new(label, rows, columns, picture,&block)
+  end
+
   def allocate(&block)
     @memory.push(*(BetaBrite::Memory::Factory.find(&block)))
   end
@@ -61,43 +65,12 @@ class BetaBrite
     header +
       @text_files.each { |tf| tf.to_s }.join('') +
       @string_files.each { |tf| tf.to_s }.join('') +
+      @dots_files.each { |tf| tf.to_s }.join('') +
       tail
-  end
-
-  # This method is used to write on the sign
-  def write(&block)
-    if @text_files.length > 0 || @string_files.length > 0
-      write_header(&block)
-      @text_files.each { |packet| yield packet.to_s }
-      @string_files.each { |packet| block.call(packet.to_s) }
-      write_end(&block)
-    end
-  end
-
-  def write_dots(&block)
-    if @dots_files.length > 0
-      write_header(&block)
-      @dots_files.each { |packet|
-        yield packet.to_s
-        sleep sleep_time
-      }
-      write_end(&block)
-    end
   end
 
   def memory_message
     "#{header}#{STX}#{MEMORY_CODE}#{@memory.map { |packet| packet.to_s }.join('')}#{tail}"
-  end
-
-  # This method is used to allocate memory on the sign
-  def write_allocate(&block)
-    if @memory.length > 0
-      write_header(&block)
-      yield STX
-      yield MEMORY_CODE
-      @memory.each { |packet| yield packet.to_s }
-      write_end(&block)
-    end
   end
 
   private
@@ -108,17 +81,6 @@ class BetaBrite
   end
   alias :inspect :header
   public :inspect
-
-  def write_header(&block)
-    header.split(//).each { |c|
-      yield c
-      sleep sleep_time
-    }
-  end
-
-  def write_end(&block)
-    yield EOT
-  end
 
   def tail
     EOT

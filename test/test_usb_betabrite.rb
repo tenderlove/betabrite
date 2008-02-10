@@ -1,16 +1,26 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "helper"))
 
 class USBBetaBriteTest < Test::Unit::TestCase
-  #def test_write_message
-  #  bb = BetaBrite::USB.new do |sign|
-  #    sign.textfile do
-  #      puts "hello ALIVE!!!"
-  #    end
-  #  end
-  #  assert_equal "hello ALIVE!!!", bb.text_files.first.message
-  #  assert bb.message
-  #  bb.write!
-  #end
+  def test_write_message
+    bb = BetaBrite::USB.new do |sign|
+      sign.textfile do
+        puts "hello ALIVE!!!"
+      end
+    end
+    assert_equal "hello ALIVE!!!", bb.text_files.first.message
+    assert bb.message
+  end
+
+  def test_allot_dots
+    alloc_string = [ 0, 0, 0, 0, 0, 1, 90, 48, 48, 2, 69, 36, 49, 68, 85, 48, 55, 48, 55, 52, 48, 48, 48, 4 ]
+    bb = BetaBrite::USB.new do |sign|
+      sign.allocate do |memory|
+        memory.dots('1', 7, 7)
+      end
+    end
+    assert_equal(1, bb.memory.length)
+    assert_equal(alloc_string.pack('C*'), bb.memory_message)
+  end
 
   def test_allocate_string
     message = [ 0, 0, 0, 0, 0, 1, 90, 48, 48, 2, 69, 36, 65, 65, 85, 48, 49, 48, 48, 70, 70, 48, 48, 4 ]
@@ -24,8 +34,6 @@ class USBBetaBriteTest < Test::Unit::TestCase
     assert bb.memory_message
     msg_u = bb.memory_message.unpack('C*')
     assert_equal(message.pack('C*'), bb.memory_message)
-
-    bb.write_memory!
   end
 
   def test_multi_alloc
@@ -54,21 +62,18 @@ class USBBetaBriteTest < Test::Unit::TestCase
     assert bb.memory_message
     msg_u = bb.memory_message.unpack('C*')
     assert_equal(final.pack('C*'), bb.memory_message)
-
-    bb.write_memory!
   end
 
-  #def test_write_red_green_message
-  #  bb = BetaBrite::USB.new do |sign|
-  #    sign.textfile do
-  #      puts string("hello ").red
-  #      puts string("wo").green
-  #      puts string("rld").rgb('3399FF')
-  #    end
-  #  end
-  #  assert bb.message
-  #  bb.write!
-  #end
+  def test_write_red_green_message
+    bb = BetaBrite::USB.new do |sign|
+      sign.textfile do
+        puts string("hello ").red
+        puts string("wo").green
+        puts string("rld").rgb('3399FF')
+      end
+    end
+    assert bb.message
+  end
 
   #def test_clear_memory
   #  BetaBrite::USB.new do |sign|

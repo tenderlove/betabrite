@@ -4,15 +4,12 @@ class BetaBrite
 
     attr_accessor :label, :rows, :columns, :picture
 
-    def initialize(label, rows, columns, picture)
+    def initialize(label, rows, columns, picture, &block)
       @label    = label
       @rows     = rows
       @columns  = columns
       @picture  = picture
-    end
-
-    def id
-      BetaBrite::STRING << @label
+      instance_eval(&block) if block
     end
 
     def to_s
@@ -20,5 +17,6 @@ class BetaBrite
         "#{sprintf('%02x', @rows)}#{sprintf('%02x', @columns)}" +
         "#{picture.join(BetaBrite::CR)}#{BetaBrite::CR}"
     end
+    alias :to_str :to_s
   end
 end

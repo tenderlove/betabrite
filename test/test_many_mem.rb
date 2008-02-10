@@ -31,11 +31,7 @@ class ManyMemoryAllocTest < Test::Unit::TestCase
       @sign.memory << string
     }
 
-    test_string = ''
-    @sign.write_allocate { |text|
-      #obj.tty.write text
-      test_string << text
-    }
+    test_string = @sign.memory_message
     assert_equal(final_s, test_string)
   end
 end

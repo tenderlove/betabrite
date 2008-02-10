@@ -48,11 +48,7 @@ class SetStringTest < Test::Unit::TestCase
     assert_equal(0, @sign.text_files.length)
     assert_equal(0, @sign.dots_files.length)
 
-    printed = ''
-    count = 0
-    @sign.write { |text|
-      printed << text
-    }
+    printed = @sign.message
     assert_equal(final_s, printed)
   end
 end

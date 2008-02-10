@@ -21,8 +21,7 @@ class BetaBrite
       super
     end
 
-    def clear_memory!
-      self.memory << BetaBrite::Memory::Clear.new
+    def reset!
       write_memory!
     end
 

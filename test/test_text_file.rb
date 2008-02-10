@@ -6,9 +6,9 @@ require 'betabrite'
 
 class TextFileTest < Test::Unit::TestCase
   def test_const_dsl
-    tf = BetaBrite::TextFile.new { |a|
-      a.set_mode "roll_down"
-      a.set_position "middle"
+    tf = BetaBrite::TextFile.new {
+      roll_down()
+      middle()
     }
 
     assert_equal(BetaBrite::TextFile::Position::MIDDLE, tf.position)

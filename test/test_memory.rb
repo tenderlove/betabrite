@@ -16,10 +16,7 @@ class MemoryAllocTest < Test::Unit::TestCase
     mem = BetaBrite::Memory::Text.new('A', 256)
 
     @sign.memory << mem
-    test_string = ''
-    @sign.write_allocate { |text|
-      test_string << text
-    }
+    test_string = @sign.memory_message
 
     assert_equal(string, test_string)
   end
@@ -30,10 +27,7 @@ class MemoryAllocTest < Test::Unit::TestCase
     mem = BetaBrite::Memory::String.new('0', 32)
 
     @sign.memory << mem
-    test_string = ''
-    @sign.write_allocate { |text|
-      test_string << text
-    }
+    test_string = @sign.memory_message
 
     assert_equal(string, test_string)
   end
@@ -44,10 +38,7 @@ class MemoryAllocTest < Test::Unit::TestCase
     mem = BetaBrite::Memory::Dots.new('1', 7, 7)
 
     @sign.memory << mem
-    test_string = ''
-    @sign.write_allocate { |text|
-      test_string << text
-    }
+    test_string = @sign.memory_message
 
     assert_equal(string, test_string)
   end
@@ -61,11 +52,7 @@ class MemoryAllocTest < Test::Unit::TestCase
     @sign.memory << mem
     @sign.memory << text
 
-    test_string = ''
-    @sign.write_allocate { |text|
-      test_string << text
-    }
-
+    test_string = @sign.memory_message
     assert_equal(string, test_string)
   end
 end

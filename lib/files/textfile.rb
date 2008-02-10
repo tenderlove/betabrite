@@ -62,10 +62,7 @@ class BetaBrite
       SMILE       = [0x6E, 0x5A].pack('C*') # A bomb animation or a smile
     end
 
-    attr_accessor :label, :display_position, :mode, :message
-
-    alias_method :position, :display_position
-    alias_method :position=, :display_position=
+    attr_accessor :label, :position, :mode, :message
 
     def initialize(label = 'A', &block)
       @position = Position::MIDDLE
@@ -87,6 +84,10 @@ class BetaBrite
       "#{BetaBrite::DLE}#{label}"
     end
 
+    def dotsfile(label)
+      "#{BetaBrite::STRING}#{label}"
+    end
+
     def to_s
       "#{combine}#{checksum(combine)}"
     end
@@ -105,6 +106,7 @@ class BetaBrite
     Mode.constants.each do |constant|
       next unless constant =~ /^[A-Z_]*$/
       define_method(:"#{constant.downcase}") do
+        puts constant
         @mode = Mode.const_get(constant)
         self
       end

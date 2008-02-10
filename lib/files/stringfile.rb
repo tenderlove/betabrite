@@ -7,7 +7,7 @@ class BetaBrite
     def initialize(label = nil, message = nil, &block)
       @label    = label
       @message  = message
-      instance_eval(&block)
+      instance_eval(&block) if block
     end
 
     def puts(some_string)
@@ -25,13 +25,10 @@ class BetaBrite
       end
     end
 
-    def id
-      "#{BetaBrite::DLE}#{@label}"
-    end
-
     def to_s
       "#{BetaBrite::STX}#{COMMAND_CODE}#{@label.to_s}" +
       "#{@message.to_s}#{BetaBrite::ETX}"
     end
+    alias :to_str :to_s
   end
 end
