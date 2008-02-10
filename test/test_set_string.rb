@@ -3,11 +3,11 @@ $:.unshift File.join(File.dirname(__FILE__), "..", "test")
 
 require 'test/unit'
 require 'betabrite'
-require 'bb_override'
 
 class MemoryAllocTest < Test::Unit::TestCase
   def setup
     @sign = BetaBrite.new
+    @sign.sleep_time = 0
   end
 
   def test_many_mem

@@ -1,8 +1,12 @@
 = BetaBrite Library
 
-== Synopsis
+* http://rubyforge.org/projects/betabrite/
+* http://betabrite.rubyforge.org/
+* mailto:aaron@tenderlovemaking.com
 
-This library is used for controlling BetaBrite LED signs via Ruby.
+== DESCRIPTION
+
+Provides a Ruby interface to BetaBrite LED signs
 
 == More Information
 

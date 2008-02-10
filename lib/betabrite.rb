@@ -22,7 +22,9 @@ class BetaBrite
   # Beta Brite sign
   SIGN_TYPE = 0x5a.chr
 
-  attr_reader :sleep_time
+  VERSION   = '0.1.0'
+
+  attr_accessor :sleep_time
   attr_reader :string_files, :text_files, :dots_files
 
   def initialize
@@ -78,32 +80,32 @@ class BetaBrite
   # This method is used to write on the sign
   def write(&block)
     if @text_files.length > 0 || @string_files.length > 0
-      write_header &block
+      write_header(&block)
       @text_files.each { |packet| yield packet.to_s }
       @string_files.each { |packet| block.call(packet.to_s) }
-      write_end &block
+      write_end(&block)
     end
   end
 
   def write_dots(&block)
     if @dots_files.length > 0
-      write_header &block
+      write_header(&block)
       @dots_files.each { |packet|
         yield packet.to_s
         sleep sleep_time
       }
-      write_end &block
+      write_end(&block)
     end
   end
 
   # This method is used to allocate memory on the sign
   def allocate(&block)
     if @memory.length > 0
-      write_header &block
+      write_header(&block)
       yield STX
       yield MEMORY_CODE
       @memory.each { |packet| yield packet.to_s }
-      write_end &block
+      write_end(&block)
     end
   end
 

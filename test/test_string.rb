@@ -3,7 +3,6 @@ $:.unshift File.join(File.dirname(__FILE__), "..", "test")
 
 require 'test/unit'
 require 'betabrite'
-require 'bb_override'
 
 class StringTest < Test::Unit::TestCase
   def test_const_dsl
