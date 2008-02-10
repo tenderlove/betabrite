@@ -1,3 +1,3 @@
-require 'betabrite/files/stringfile'
-require 'betabrite/files/textfile'
-require 'betabrite/files/dotsfile'
+require 'betabrite/files/string'
+require 'betabrite/files/text'
+require 'betabrite/files/dots'

@@ -32,7 +32,7 @@ module BetaBrite
 
     alias :to_s :format
 
-    class Factory < Memory
+    class Factory
       attr_reader :memory_list
       class << self
         def find(&block)
