@@ -1,6 +1,16 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "helper"))
 
 class USBBetaBriteTest < Test::Unit::TestCase
+  def test_stringfile
+    bb = BetaBrite::USB.new do |sign|
+      sign.stringfile('0') do
+        puts "hello ALIVE!!!"
+      end
+    end
+    assert_equal 1, bb.string_files.length
+    assert_equal 'hello ALIVE!!!', bb.string_files.first.message
+  end
+
   def test_write_message
     bb = BetaBrite::USB.new do |sign|
       sign.textfile do

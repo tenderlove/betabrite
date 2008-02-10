@@ -41,7 +41,7 @@ module BetaBrite
     end
 
     def stringfile(label, message = nil, &block)
-      @string_files << String.new(label, message, &block)
+      @string_files << Files::String.new(label, message, &block)
     end
 
     def dotsfile(label, rows = nil, columns = nil, picture = nil, &block)
