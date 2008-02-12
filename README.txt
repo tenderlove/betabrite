@@ -19,42 +19,27 @@ file displayed on the sign is labeled 'A'.
 
 Here is an example of modifying the default sign text:
 
-  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
-  
-  sign = BetaBrite.new
-  tf = BetaBrite::TextFile.new
-  tf.message = ARGV[0]
-  
-  sign.add tf
-  
-  sign.write { |text|
-    sp.write text
-  }
+  bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
+    sign.textfile do
+      print ARGV[0]
+    end
+  end
+  bb.write!
 
 == Allocating Memory
 The memory in the BetaBrite sign should be configured before anything is
-written to it.  This means writing a seperate script to allocate the memory
-from the one that actually writes data.  This may change in the future, I
-just haven't figured out if it is possible to allocate memory and write data
-at the same time.
+written to it.  You only have to configure the memory once before writing to
+it.  So subsequent executions of your script do not require allocating memory.
 
 Here is an example of allocating memory on the sign:
 
-  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
-  
-  sign = BetaBrite.new
-  
-  string  = BetaBrite::Memory::String.new('0', 32)
-  dots    = BetaBrite::Memory::Dots.new('1', 7, 7)
-  text    = BetaBrite::Memory::Text.new('A', 256)
-  
-  sign.add text
-  sign.add dots
-  sign.add string
-  
-  sign.allocate { |text|
-    sp.write text
-  }
+  bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
+    sign.memory do
+      memory.text('A', 4096)
+      memory.string('0', 64)
+    end
+  end
+  bb.write_memory!
 
 For more examples, see the EXAMPLES file.
 
@@ -73,27 +58,18 @@ be displayed unless referenced from a Text File.
 
 Here is an example of referencing a String File from a Text File:
 
-  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
-  sign = BetaBrite.new
-  tf = BetaBrite::TextFile.new
-  
-  # Set up a BetaBrite::String
-  middle_name = BetaBrite::String.new('James',
-                                    :color => BetaBrite::String::Color::AMBER
-                                  )
-  # Create a StringFile which can be modified without making the sign blink.
-  sf = BetaBrite::StringFile.new('0', middle_name)
-  
-  # Set the TextFile message and reference the StringFile
-  tf.message = BetaBrite::String.new("Aaron #{sf.id} Patterson")
-  
-  
-  sign.add tf
-  sign.add sf 
-  
-  sign.write { |text|
-    sp.write text
-  }
+  bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
+    sign.stringfile('0') do
+      print string("cruel").red
+    end
+
+    sign.textfile do
+      print string("Goodbye ").green
+      print stringfile("0")
+      print string(" world.").green + sail_boat
+    end
+  end
+  bb.write!
 
 Once the String file is allocated and displayed, it can be changed at any
 time and the string will be updated without the screen going blank.

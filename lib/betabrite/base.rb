@@ -52,9 +52,10 @@ module BetaBrite
       @memory.push(*(BetaBrite::Memory::Factory.find(&block)))
     end
 
-    #def clear_memory!
-    #  @memory << BetaBrite::Memory::Clear.new
-    #end
+    def clear_memory!
+      @memory = []
+      self.write_memory!
+    end
 
     # Get the message to be sent to the sign
     def message

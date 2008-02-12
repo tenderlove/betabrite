@@ -2,85 +2,40 @@
 
 == Allocate Memory
 
-  require 'betabrite'
-  require 'serialport'
-  
-  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
-  
-  sign = BetaBrite.new
-  
-  string  = BetaBrite::Memory::String.new('0', 32)
-  dots    = BetaBrite::Memory::Dots.new('1', 7, 7)
-  text    = BetaBrite::Memory::Text.new('A', 256)
-  
-  sign.add text
-  sign.add dots
-  sign.add string
-  
-  sign.allocate { |text|
-    sp.write text
-  }
+  bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
+    sign.allocate do |memory|
+      memory.text('A', 4096)
+      memory.string('0', 64)
+      memory.dots('1', 7, 7)
+    end
+  end
+  bb.write_memory!
 
 == Reset the sign
 
-  require 'betabrite'
-  require 'serialport'
+  BetaBrite::Serial.new('/dev/ttyUSB0').clear_memory!
   
-  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
-  
-  sign = BetaBrite.new
-  sign.add BetaBrite::Memory::Clear.new
-  
-  sign.allocate { |text|
-    sp.write text
-  }
-
 == Write a text file
 
-  require 'serialport'
-  require 'betabrite'
-  
-  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
-  
-  sign = BetaBrite.new
-  tf = BetaBrite::TextFile.new
-  tf.message = ARGV[0]
-  
-  sign.add tf
-  
-  sign.write { |text|
-    sp.write text
-  }
+  bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
+    sign.textfile do
+      print left_arrow + string("Hello ").green
+      print string(" world.").green + sail_boat
+    end
+  end
+  bb.write!
 
 == Write a text file that references a string file
 
-  require 'betabrite'
-  require 'serialport'
+  bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
+    sign.stringfile('0') do
+      print string("cruel").red
+    end
   
-  sp = SerialPort.new(0, 9600, 8, 1, SerialPort::NONE)
-  
-  sign = BetaBrite.new
-  
-  # Create a new TextFile with the COMPRESSED_ROTATE mode.
-  tf = BetaBrite::TextFile.new { |a|
-    a.mode = BetaBrite::TextFile::Mode::COMPRESSED_ROTATE
-  }
-  
-  # Set up a BetaBrite::String
-  name = BetaBrite::String.new('James',
-                                    :color => BetaBrite::String::Color::AMBER
-                                  )
-  # Create a StringFile which can be modified without making the sign blink.
-  sf = BetaBrite::StringFile.new('0', name)
-  
-  # Set the TextFile message and reference the StringFile
-  tf.message = BetaBrite::String.new("Aaron #{sf.id} Patterson")
-  
-  
-  sign.add tf
-  sign.add sf 
-  
-  sign.write { |text|
-    sp.write text
-  }
-
+    sign.textfile do
+      print left_arrow + string("Hello ").green
+      print stringfile("0")
+      print string(" world.").green + sail_boat
+    end
+  end
+  bb.write!

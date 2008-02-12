@@ -1,14 +1,7 @@
-begin
-  require 'serialport'
-  HAVE_SERIALPORT = true
-rescue LoadError => ex
-  HAVE_SERIALPORT = false
-end
 module BetaBrite
   class Serial < Base
     def initialize(serialport)
       @serialport = serialport
-      raise("Please install ruby-serialport") unless HAVE_SERIALPORT
       super()
     end
 
