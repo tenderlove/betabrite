@@ -15,5 +15,15 @@ class StringTest < Test::Unit::TestCase
     assert_equal(BetaBrite::String::CharSet::FIVE_HIGH, s.charset)
     assert_equal("hello", s.string)
   end
+
+  def test_parse
+    string1 = BetaBrite::String.new('foo').green
+    string2 = BetaBrite::String.new('foo').rgb('FF00FF')
+    string = "#{string1.to_s}#{string2.to_s}"
+
+    parsed = BetaBrite::String.parse(string)
+    assert_equal(2, parsed.length)
+    assert parsed.all? { |x| x.is_a?(BetaBrite::String) }
+  end
 end
 

@@ -96,8 +96,6 @@ module BetaBrite
         sprintf("%04x", total).upcase
       end
 
-      alias :inspect :to_s
-
       Mode.constants.each do |constant|
         next unless constant =~ /^[A-Z_]*$/
           define_method(:"#{constant.downcase}") do

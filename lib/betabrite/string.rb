@@ -54,6 +54,16 @@ module BetaBrite
     end
     attr_accessor :color, :charset, :string
 
+    class << self
+      # Break up a string into betabrite strings
+      def parse(string)
+        string.split(/#{0x1a.chr}/).select { |s|
+          s.length > 0
+        }.map { |s|
+        }
+      end
+    end
+
     def initialize(string, opts = {})
       args = {  :color    => Color::GREEN,
                 :charset  => CharSet::SEVEN_HIGH

@@ -11,16 +11,6 @@ module BetaBrite
     WRITE_TIMEOUT  = 5000
     READ_TIMEOUT   = 5000
 
-    def initialize
-      begin
-        require 'usb'
-      rescue LoadError => ex
-        $stderr.puts "Please install ruby-usb"
-        raise ex
-      end
-      super
-    end
-
     def reset!
       write_memory!
     end

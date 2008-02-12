@@ -4,7 +4,7 @@ class USBBetaBriteTest < Test::Unit::TestCase
   def test_stringfile
     bb = BetaBrite::USB.new do |sign|
       sign.stringfile('0') do
-        puts "hello ALIVE!!!"
+        print "hello ALIVE!!!"
       end
     end
     assert_equal 1, bb.string_files.length
@@ -14,7 +14,7 @@ class USBBetaBriteTest < Test::Unit::TestCase
   def test_write_message
     bb = BetaBrite::USB.new do |sign|
       sign.textfile do
-        puts "hello ALIVE!!!"
+        print "hello ALIVE!!!"
       end
     end
     assert_equal "hello ALIVE!!!", bb.text_files.first.message
@@ -77,11 +77,12 @@ class USBBetaBriteTest < Test::Unit::TestCase
   def test_write_red_green_message
     bb = BetaBrite::USB.new do |sign|
       sign.textfile do
-        puts string("hello ").red
-        puts string("wo").green
-        puts string("rld").rgb('3399FF')
+        print string("hello ").red
+        print string("wo").green
+        print string("rld").rgb('3399FF')
       end
     end
+    assert_equal(1, bb.text_files.length)
     assert bb.message
   end
 
