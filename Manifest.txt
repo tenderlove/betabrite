@@ -1,3 +1,4 @@
+.autotest
 EXAMPLES
 History.txt
 LICENSE
