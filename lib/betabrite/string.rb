@@ -60,7 +60,8 @@ module BetaBrite
         string.split(/#{0x1a.chr}/).select { |s|
           s.length > 0
         }.map { |s|
-          s =~ /(.)#{0x1c.chr}(Z[.]{6}|.)(.*)$/
+          data = /(.)#{0x1c.chr}Z?([^Z]{6}|[^Z])(.*)$/.match(s)
+          new(data[3], :color => data[2], :charset => data[1])
         }
       end
     end
@@ -80,12 +81,14 @@ module BetaBrite
     end
 
     def rgb(rgb_color)
-      self.color = "Z#{rgb_color}"
+      self.color = "#{rgb_color}"
       self
     end
 
     def to_s
-      "#{0x1a.chr}#{@charset}#{0x1c.chr}#{@color}#{@string}"
+      "#{0x1a.chr}#{@charset}#{0x1c.chr}" +
+        (@color.length > 1 ? "Z#{@color}" : "#{@color}") +
+        "#{@string}"
     end
     alias :to_str :to_s
 
