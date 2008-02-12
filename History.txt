@@ -1,3 +1,10 @@
+=== 1.0.0
+
+* 2 Major Enhancements:
+
+  * Adding support for USB betabrite signs (Thanks Thought Hammer)
+  * Changed API to use more DSL type interface
+
 === 0.0.2
 
 * Added new syntax to BetaBrite::String and BetaBrite::TextFile
