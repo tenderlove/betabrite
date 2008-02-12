@@ -37,7 +37,7 @@ module BetaBrite
       class << self
         def find(&block)
           @memory_list = []
-          instance_eval(&block)
+          block.call(self)
           @memory_list
         end
 

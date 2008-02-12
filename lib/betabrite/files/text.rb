@@ -89,11 +89,11 @@ module BetaBrite
 
       def checksum(string)
         total = 0
-        0.upto(string.length - 1) do |i|
-          total += string[i]
-        end
+        string.unpack('C*').each { |i|
+          total += i
+        }
 
-        sprintf("%04x", total).upcase
+        sprintf("%04X", total)
       end
 
       Mode.constants.each do |constant|
