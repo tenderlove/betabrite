@@ -6,7 +6,15 @@
 
 == DESCRIPTION
 
-Provides a Ruby interface to BetaBrite LED signs
+Provides a Ruby interface to BetaBrite LED signs.
+
+== DEPENDENCIES
+
+  * ruby-usb[http://raa.ruby-lang.org/project/ruby-usb/]
+  * ruby-serialport[http://rubyforge.org/projects/ruby-serialport/]
+
+PLEASE NOTE!!!!  You must require 'usb' or 'serialport' depending on which
+sign you are using!!!!
 
 == More Information
 
@@ -78,3 +86,8 @@ time and the string will be updated without the screen going blank.
 Dots files can contain pictures.  Each pixel is set in an array of strings.
 See dots_file.rb under the script directory for an example.  Or see the
 EXAMPLES file.
+
+== Author
+
+* {Aaron Patterson}[http://tenderlovemaking.com] <aaronp@rubyforge.org>
+
