@@ -60,6 +60,7 @@ module BetaBrite
         string.split(/#{0x1a.chr}/).select { |s|
           s.length > 0
         }.map { |s|
+          s =~ /(.)#{0x1c.chr}(Z[.]{6}|.)(.*)$/
         }
       end
     end
