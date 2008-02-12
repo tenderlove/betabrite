@@ -98,6 +98,9 @@ module BetaBrite
         @color = Color.const_get(constant)
         self
       end
+      define_method(:"#{constant.downcase}?") do
+        @color == Color.const_get(constant)
+      end
     end
 
     CharSet.constants.each do |constant|

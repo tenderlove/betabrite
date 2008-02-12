@@ -1,8 +1,9 @@
 === 1.0.0
 
-* 2 Major Enhancements:
+* 3 Major Enhancements:
 
   * Adding support for USB betabrite signs (Thanks Thought Hammer)
+  * Added an autotest hook
   * Changed API to use more DSL type interface
 
 === 0.0.2

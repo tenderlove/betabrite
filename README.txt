@@ -34,6 +34,19 @@ Here is an example of modifying the default sign text:
   end
   bb.write!
 
+== Autotest Support
+Here is an example of a .autotest file using the BetaBrite module:
+
+  require 'betabrite/autotest'
+  require 'usb'
+  
+  Autotest::BetaBrite.hook(BetaBrite::USB) do |failures, erorrs|
+    failures.rgb('0000FF') if failures.green?
+  end
+
+You don't need to give the hook method a block, but you can if you'd like to
+customize your messages.
+
 == Allocating Memory
 The memory in the BetaBrite sign should be configured before anything is
 written to it.  You only have to configure the memory once before writing to

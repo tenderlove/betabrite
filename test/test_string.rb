@@ -25,6 +25,7 @@ class StringTest < Test::Unit::TestCase
     assert_equal(2, parsed.length)
     assert parsed.all? { |x| x.is_a?(BetaBrite::String) }
     assert_equal BetaBrite::String::Color::GREEN, parsed[0].color
+    assert parsed[0].green?
     assert_equal 'FF00FF', parsed[1].color
     assert_equal 'foo', parsed[0].string
     assert_equal 'bar', parsed[1].string

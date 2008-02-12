@@ -1,0 +1,7 @@
+require 'betabrite/autotest'
+require 'usb'
+
+Autotest::BetaBrite.hook(BetaBrite::USB) do |failures, erorrs|
+  failures.rgb('0000FF') if failures.green?
+end
+

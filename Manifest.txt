@@ -5,6 +5,7 @@ Manifest.txt
 README.txt
 Rakefile
 lib/betabrite.rb
+lib/betabrite/autotest.rb
 lib/betabrite/base.rb
 lib/betabrite/files.rb
 lib/betabrite/files/dots.rb
