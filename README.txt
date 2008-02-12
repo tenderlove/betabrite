@@ -55,7 +55,7 @@ it.  So subsequent executions of your script do not require allocating memory.
 Here is an example of allocating memory on the sign:
 
   bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
-    sign.memory do
+    sign.memory do |memory|
       memory.text('A', 4096)
       memory.string('0', 64)
     end
