@@ -4,6 +4,10 @@
 
   * Works with ruby 1.9
 
+* 1 bugfix:
+
+  * Fixing bug in memory allocation
+
 === 1.0.0
 
 * 3 Major Enhancements:
