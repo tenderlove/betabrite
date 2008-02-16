@@ -1,8 +1,9 @@
 === 1.0.1
 
-* 1 Minor Enhancement:
+* 2 Minor Enhancements:
 
   * Works with ruby 1.9
+  * Added more string codes
 
 * 1 bugfix:
 

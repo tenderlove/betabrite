@@ -2,8 +2,10 @@ module BetaBrite
   # This class encapsulates a string and attributes about the string such as
   # color, character set, and also contains special characters.
   class String
+    UP_ARROW        = 0xc4.chr
+    DOWN_ARROW      = 0xc5.chr
     LEFT_ARROW      = 0xc6.chr
-    RIGHT_ARROW     = 0xc6.chr
+    RIGHT_ARROW     = 0xc7.chr
     PACKMAN         = 0xc8.chr
     SAIL_BOAT       = 0xc9.chr
     BALL            = 0xca.chr
@@ -22,6 +24,11 @@ module BetaBrite
     PRINTER         = 0xd7.chr
     NOTE            = 0xd8.chr
     INFINITY        = 0xd9.chr
+    RETURN_ARROW    = 0xda.chr
+    SM_UP_ARROW     = 0xdb.chr
+    SM_DOWN_ARROW   = 0xdc.chr
+    SM_LEFT_ARROW   = 0xdd.chr
+    SM_RIGHT_ARROW  = 0xde.chr
     class Color
       RED       = '1'
       GREEN     = '2'
