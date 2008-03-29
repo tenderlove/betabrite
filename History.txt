@@ -1,3 +1,9 @@
+=== 1.0.2
+
+* 1 Bugfix:
+
+  * Added a special case for libusb on Windows. (Thanks Aslak Hellesøy)
+
 === 1.0.1
 
 * 2 Minor Enhancements:
