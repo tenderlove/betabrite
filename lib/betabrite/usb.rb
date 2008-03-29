@@ -44,6 +44,10 @@ module BetaBrite
 
       retries = 0
       begin
+        if PLATFORM =~ /mswin/
+          # http://osdir.com/ml/lib.libusb.devel.windows/2004-06/msg00001.html
+          handle.set_configuration(0x01) 
+        end
         error_code = handle.usb_claim_interface(INTERFACE)
         raise unless error_code.nil?
       rescue
