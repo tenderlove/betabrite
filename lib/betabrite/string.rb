@@ -111,7 +111,7 @@ module BetaBrite
     end
 
     CharSet.constants.each do |constant|
-      next unless constant =~ /^[A-Z_]*$/
+      next unless constant =~ /^[A-Z1-9_]*$/
       define_method(:"#{constant.downcase}") do
         @charset = CharSet.const_get(constant)
         self
