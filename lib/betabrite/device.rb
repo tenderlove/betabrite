@@ -1,5 +1,5 @@
 module BetaBrite
-  VERSION   = '1.0.3'
+  VERSION   = '1.0.4'
 
   class Device
     include BetaBrite::Files
