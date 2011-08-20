@@ -13,8 +13,8 @@ module BetaBrite
       end
 
       def to_s
-        "#{BetaBrite::Base::STX}#{COMMAND_CODE}#{@label.to_s}" +
-          "#{@message.to_s}#{BetaBrite::Base::ETX}"
+        "#{BetaBrite::Device::STX}#{COMMAND_CODE}#{@label.to_s}" +
+          "#{@message.to_s}#{BetaBrite::Device::ETX}"
       end
       alias :to_str :to_s
     end

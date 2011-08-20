@@ -1,6 +1,6 @@
 require 'betabrite/string'
 require 'betabrite/files'
-require 'betabrite/base'
+require 'betabrite/device'
 require 'betabrite/usb'
 require 'betabrite/serial'
 require 'betabrite/memory'

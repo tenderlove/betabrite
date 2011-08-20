@@ -14,9 +14,9 @@ module BetaBrite
       end
 
       def to_s
-        string = "#{BetaBrite::Base::STX}#{COMMAND_CODE}#{@label.to_s}" +
+        string = "#{BetaBrite::Device::STX}#{COMMAND_CODE}#{@label.to_s}" +
         "#{sprintf('%02x', @rows)}#{sprintf('%02x', @columns)}" +
-        "#{picture.join(BetaBrite::Base::CR)}#{BetaBrite::Base::CR}"
+        "#{picture.join(BetaBrite::Device::CR)}#{BetaBrite::Device::CR}"
       end
       alias :to_str :to_s
     end

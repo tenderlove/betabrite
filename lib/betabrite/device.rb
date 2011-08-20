@@ -1,7 +1,7 @@
 module BetaBrite
   VERSION   = '1.0.3'
 
-  class Base
+  class Device
     include BetaBrite::Files
 
     # = Synopsis

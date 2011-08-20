@@ -1,5 +1,5 @@
 module BetaBrite
-  class USB < Base
+  class USB < Device
     # USB Device Codes
     PRODUCT_ID     = 0x1234
     VENDOR_ID      = 0x8765
@@ -46,13 +46,13 @@ module BetaBrite
       begin
         if PLATFORM =~ /mswin/
           # http://osdir.com/ml/lib.libusb.devel.windows/2004-06/msg00001.html
-          handle.set_configuration(0x01) 
+          handle.set_configuration(0x01)
         end
         error_code = handle.usb_claim_interface(INTERFACE)
         raise unless error_code.nil?
       rescue
         handle.usb_detach_kernel_driver_np(INTERFACE);
-        if retries.zero? 
+        if retries.zero?
           retries += 1
           retry
         else

@@ -1,5 +1,5 @@
 module BetaBrite
-  class Serial < Base
+  class Serial < Device
     def initialize(serialport)
       @serialport = serialport
       super()

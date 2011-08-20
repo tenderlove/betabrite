@@ -6,7 +6,7 @@ require 'betabrite'
 
 class ManyMemoryAllocTest < Test::Unit::TestCase
   def setup
-    @sign = BetaBrite::Base.new
+    @sign = BetaBrite::Device.new
     @sign.sleep_time = 0
   end
 

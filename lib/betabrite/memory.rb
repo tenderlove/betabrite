@@ -7,7 +7,7 @@ module BetaBrite
     LOCKED       = 'L'
     UNLOCKED     = 'U'
     def self.clear
-      BetaBrite::Base::STX << COMMAND_CODE
+      BetaBrite::Device::STX << COMMAND_CODE
     end
 
     attr_accessor :label, :type, :locked, :size, :time
@@ -91,7 +91,7 @@ module BetaBrite
 
     class Clear < Memory
       def to_s
-        "#{BetaBrite::Base::STX}#{COMMAND_CODE}"
+        "#{BetaBrite::Device::STX}#{COMMAND_CODE}"
       end
     end
   end

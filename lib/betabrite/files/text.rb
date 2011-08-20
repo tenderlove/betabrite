@@ -76,11 +76,11 @@ module BetaBrite
       end
 
       def stringfile(label)
-      "#{BetaBrite::Base::DLE}#{label}"
+      "#{BetaBrite::Device::DLE}#{label}"
       end
 
       def dotsfile(label)
-      "#{BetaBrite::Base::STRING}#{label}"
+      "#{BetaBrite::Device::STRING}#{label}"
       end
 
       def to_s
@@ -114,8 +114,8 @@ module BetaBrite
 
       private
       def combine
-        "#{BetaBrite::Base::STX}#{WRITE}#{@label}#{BetaBrite::Base::ESC}" +
-          "#{@position}#{@mode}#{@message}#{BetaBrite::Base::ETX}"
+        "#{BetaBrite::Device::STX}#{WRITE}#{@label}#{BetaBrite::Device::ESC}" +
+          "#{@position}#{@mode}#{@message}#{BetaBrite::Device::ETX}"
       end
     end
   end
