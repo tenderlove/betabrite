@@ -1,7 +1,5 @@
 require 'hoe'
 
-require 'betabrite'
-
 Hoe.spec 'betabrite' do |p|
   developer 'Aaron Patterson', 'aaron@tenderlovemaking.com'
 
