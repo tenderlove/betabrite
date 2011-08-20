@@ -27,7 +27,7 @@ file displayed on the sign is labeled 'A'.
 
 Here is an example of modifying the default sign text:
 
-  bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
+  bb = BetaBrite::USB.new do |sign|
     sign.textfile do
       print ARGV[0]
     end
@@ -35,6 +35,7 @@ Here is an example of modifying the default sign text:
   bb.write!
 
 == Autotest Support
+
 Here is an example of a .autotest file using the BetaBrite module:
 
   require 'betabrite/autotest'
@@ -48,13 +49,14 @@ You don't need to give the hook method a block, but you can if you'd like to
 customize your messages.
 
 == Allocating Memory
+
 The memory in the BetaBrite sign should be configured before anything is
 written to it.  You only have to configure the memory once before writing to
-it.  So subsequent executions of your script do not require allocating memory.
+it. Subsequent executions of your script do not require allocating memory.
 
 Here is an example of allocating memory on the sign:
 
-  bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
+  bb = BetaBrite::USB.new do |sign|
     sign.allocate do |memory|
       memory.text('A', 4096)
       memory.string('0', 64)
@@ -65,7 +67,9 @@ Here is an example of allocating memory on the sign:
 For more examples, see the EXAMPLES file.
 
 == Different File Types
+
 === Text Files
+
 The data stored in a text file is not supposed to change frequently.  If the
 data in a text file is changed, the sign will go blank before anything is
 displayed.  This is not good for applications like a stock ticker which
@@ -73,13 +77,14 @@ update data quite frequently.  This problem can be avoided by having the
 text file reference more volitile files like String Files.
 
 === String Files
+
 String files contain more volitile memory.  The contents of a String File
 can be changed without the screen going blank.  String Files, however, cannot
 be displayed unless referenced from a Text File.
 
 Here is an example of referencing a String File from a Text File:
 
-  bb = BetaBrite::Serial.new('/dev/ttyUSB0') do |sign|
+  bb = BetaBrite::USB.new do |sign|
     sign.stringfile('0') do
       print string("cruel").red
     end
