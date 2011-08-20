@@ -1,5 +1,3 @@
-require File.expand_path(File.join(File.dirname(__FILE__), "helper"))
-
 class USBBetaBriteTest < Test::Unit::TestCase
   def test_stringfile
     bb = BetaBrite::USB.new do |sign|

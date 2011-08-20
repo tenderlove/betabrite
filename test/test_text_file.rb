@@ -1,9 +1,3 @@
-$:.unshift File.join(File.dirname(__FILE__), "..", "lib")
-$:.unshift File.join(File.dirname(__FILE__), "..", "test")
-
-require 'test/unit'
-require 'betabrite'
-
 class TextFileTest < Test::Unit::TestCase
   include BetaBrite::Files
 

@@ -1,9 +1,3 @@
-$:.unshift File.join(File.dirname(__FILE__), "..", "lib")
-$:.unshift File.join(File.dirname(__FILE__), "..", "test")
-
-require 'test/unit'
-require 'betabrite'
-
 class MemoryAllocTest < Test::Unit::TestCase
   def setup
     @sign = BetaBrite::Device.new
