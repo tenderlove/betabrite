@@ -1,13 +1,13 @@
 .autotest
+CHANGELOG.rdoc
 EXAMPLES
-History.txt
 LICENSE
 Manifest.txt
-README.txt
+README.rdoc
 Rakefile
 lib/betabrite.rb
 lib/betabrite/autotest.rb
-lib/betabrite/base.rb
+lib/betabrite/device.rb
 lib/betabrite/files.rb
 lib/betabrite/files/dots.rb
 lib/betabrite/files/file_dsl.rb
