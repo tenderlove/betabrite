@@ -6,7 +6,7 @@ module BetaBrite
     INTERFACE      = 0x00
     RECV_LENGTH    = 0x40 # Max Packet Size of 64
     SEND_LENGTH    = 0x40 # Max Packet Size of 64
-    WRITE_ENDPOINT = 0x02 
+    WRITE_ENDPOINT = 0x02
     READ_ENDPOINT  = 0x82
     WRITE_TIMEOUT  = 5000
     READ_TIMEOUT   = 5000
@@ -44,7 +44,7 @@ module BetaBrite
 
       retries = 0
       begin
-        if PLATFORM =~ /mswin/
+        if RUBY_PLATFORM =~ /mswin/
           # http://osdir.com/ml/lib.libusb.devel.windows/2004-06/msg00001.html
           handle.set_configuration(0x01)
         end
