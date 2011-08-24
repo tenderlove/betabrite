@@ -1,3 +1,9 @@
+=== 1.0.5
+
+* 1 Bugfix:
+
+  * Enable String#rainbow_1 and String#color_mix
+
 === 1.0.4
 
 * 1 Bugfix:

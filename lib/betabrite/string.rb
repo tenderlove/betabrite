@@ -100,19 +100,17 @@ module BetaBrite
     alias :to_str :to_s
 
     Color.constants.each do |constant|
-      next unless constant =~ /^[A-Z_]*$/
-      define_method(:"#{constant.downcase}") do
+      define_method("#{constant.downcase}") do
         @color = Color.const_get(constant)
         self
       end
-      define_method(:"#{constant.downcase}?") do
+      define_method("#{constant.downcase}?") do
         @color == Color.const_get(constant)
       end
     end
 
     CharSet.constants.each do |constant|
-      next unless constant =~ /^[A-Z1-9_]*$/
-      define_method(:"#{constant.downcase}") do
+      define_method("#{constant.downcase}") do
         @charset = CharSet.const_get(constant)
         self
       end
