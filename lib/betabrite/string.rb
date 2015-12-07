@@ -17,8 +17,8 @@ module BetaBrite
     MUG             = 0xd0.chr
     SATELLITE_DISH  = 0xd1.chr
     COPYRIGHT       = 0xd2.chr
-    MALE_SYM        = 0xd3.chr
-    FEMALE_SYM      = 0xd4.chr
+    FEMALE_SYM      = 0xd3.chr
+    MALE_SYM        = 0xd4.chr
     BOTTLE          = 0xd5.chr
     DISKETTE        = 0xd6.chr
     PRINTER         = 0xd7.chr
